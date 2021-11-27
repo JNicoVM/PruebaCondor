@@ -24,6 +24,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.example.appnicolas.ui.activities.detail.view.DetailActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppNicolas"/>
+
     </application>
 
 </manifest>
