@@ -9,8 +9,8 @@ import retrofit2.http.Url
 interface APIService {
 
     @GET
-    suspend fun getTeamsByLeague(@Url url: String) : Response<TeamObjectResponse>
+    suspend fun getTeamsByLeague(@Url url: String): Response<TeamObjectResponse>
 
     @GET
-    fun getEventsByTeamId(@Url url: String) : Response<EventResponse>
+    suspend fun getEventsByTeamId(@Url url: String): Response<EventResponse>
 }

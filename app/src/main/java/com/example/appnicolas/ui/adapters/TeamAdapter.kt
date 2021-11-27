@@ -1,4 +1,4 @@
-package com.example.appnicolas.adapters
+package com.example.appnicolas.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.View

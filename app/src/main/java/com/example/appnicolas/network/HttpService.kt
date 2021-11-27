@@ -1,18 +1,15 @@
 package com.example.appnicolas.network
 
 import com.example.appnicolas.data.model.response.TeamObjectResponse
-import com.example.appnicolas.retrofit.RetrofitHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class HttpService {
-
-    private val retrofit = RetrofitHelper.getRestrofit()
+class HttpService @Inject constructor(private val api: APIService) {
 
     suspend fun getTeams(leagueName: String): TeamObjectResponse{
-
         return withContext(Dispatchers.IO){
-            val response = retrofit.create(APIService::class.java).getTeamsByLeague(leagueName)
+            val response = api.getTeamsByLeague(leagueName)
               response.body() ?: TeamObjectResponse(teams = arrayListOf())
         }
 

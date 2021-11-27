@@ -5,7 +5,7 @@
     android:id="@+id/viewContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.home.view.HomeActivity">
+    tools:context=".ui.activities.home.view.HomeActivity">
 
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/spLeague"

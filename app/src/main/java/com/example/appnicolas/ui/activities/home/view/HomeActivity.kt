@@ -1,25 +1,18 @@
-package com.example.appnicolas.activities.home.view
+package com.example.appnicolas.ui.activities.home.view
 
-import android.annotation.SuppressLint
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.appnicolas.activities.home.viewModel.HomeViewModel
-import com.example.appnicolas.adapters.TeamAdapter
+import com.example.appnicolas.ui.activities.home.viewModel.HomeViewModel
+import com.example.appnicolas.ui.adapters.TeamAdapter
 import com.example.appnicolas.databinding.HomeActivityBinding
-import com.example.appnicolas.data.model.response.TeamResponse
-import com.example.appnicolas.network.APIService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     //Late binding
