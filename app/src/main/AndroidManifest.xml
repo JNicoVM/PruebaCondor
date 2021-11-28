@@ -14,8 +14,7 @@
 
         <activity
             android:name="com.example.appnicolas.ui.activities.home.view.HomeActivity"
-            android:exported="true"
-            android:theme="@style/Theme.AppNicolas">
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,28 +1,56 @@
 package com.example.appnicolas.ui.activities.detail.view
 
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
+import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.appnicolas.databinding.DetailActivityBinding
+import com.example.appnicolas.ui.activities.detail.viewModel.DetailViewModel
+import com.example.appnicolas.ui.adapters.EventAdapter
+import com.example.appnicolas.ui.adapters.TeamAdapter
 import com.squareup.picasso.Picasso
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class DetailActivity :AppCompatActivity(){
 
     //Lateinit of binding
     lateinit var binding: DetailActivityBinding
+    //Init event adapter
+    private lateinit var adapter: EventAdapter
+
+    private lateinit var bundle: Bundle
+
+    //ViewModel
+    private val detailViewModel: DetailViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DetailActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initRecyclerView()
         loadData()
         onClickBackButton()
+        listenerTeams()
+        listenerIsLoading()
+        listenerIsError()
+        detailViewModel.onCreate(bundle.getString("teamId")?:"")
+    }
+
+    //Init recyclerView
+    private fun initRecyclerView() {
+        adapter = EventAdapter(detailViewModel.localEventList.toList())
+        binding.rvEvent.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
+        binding.rvEvent.adapter = adapter
+
     }
 
     //Load data
     private fun loadData(){
-        val bundle = intent.extras
-        bundle?.let {
+        bundle = intent.extras ?: Bundle()
+        bundle.let {
             bundle.apply {
                 binding.tvNameContent.text = getString("teamName")
                 binding.tvDescriptionContent.text = getString("teamDescription")
@@ -35,6 +63,28 @@ class DetailActivity :AppCompatActivity(){
                 }
             }
         }
+    }
+
+    //Filling the list of events
+    private fun listenerTeams() {
+        detailViewModel.eventList.observe(this, Observer { eventList ->
+            adapter = EventAdapter(eventList)
+            binding.rvEvent.adapter = adapter
+        })
+    }
+
+    //Loading screen
+    private fun listenerIsLoading(){
+        detailViewModel.isLoading.observe(this, Observer { isLoading->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+    }
+
+    //Error screen
+    private fun listenerIsError(){
+        detailViewModel.isError.observe(this, Observer { isError->
+            binding.tvError.visibility = if (isError) View.VISIBLE else View.GONE
+        })
     }
 
     //listener onClick backButton

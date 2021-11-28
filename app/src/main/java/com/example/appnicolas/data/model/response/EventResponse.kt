@@ -2,6 +2,11 @@ package com.example.appnicolas.data.model.response
 
 import com.google.gson.annotations.SerializedName
 
+data class EventObjectResponse(
+    @SerializedName("results") val results: MutableList<EventResponse>?,
+)
+
+
 data class EventResponse(
     @SerializedName("idEvent") val id: String,
     @SerializedName("strEvent")val name: String,

@@ -30,7 +30,7 @@ class TeamAdapter(private val teams:List<TeamResponse>): RecyclerView.Adapter<Te
 //TeamViewHolder
 class TeamViewHolder(val view: View): RecyclerView.ViewHolder(view){
 
-    //lateinit binding
+    // binding
     private val binding = TeamContainerBinding.bind(view)
 
     fun bind(team:TeamResponse?){
@@ -45,6 +45,7 @@ class TeamViewHolder(val view: View): RecyclerView.ViewHolder(view){
             intent.putExtra("teamFoundation", team?.foundationYear)
             intent.putExtra("imgBadge", team?.imgBadge)
             intent.putExtra("imgShirt", team?.imgShirt)
+            intent.putExtra("teamId", team?.id)
             startActivity(view.context, intent,null)
         }
     }

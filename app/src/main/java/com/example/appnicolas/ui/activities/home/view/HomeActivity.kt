@@ -17,6 +17,7 @@ class HomeActivity : AppCompatActivity() {
 
     //Late binding
     private lateinit var binding: HomeActivityBinding
+    //Init TeamAdapter
     private lateinit var adapter: TeamAdapter
 
     //ViewModel
