@@ -17,7 +17,9 @@ class DetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     val eventList = MutableLiveData<ArrayList<EventResponse>>()
-    var localEventList = ArrayList<EventResponse>()
+    private var _localEventList = ArrayList<EventResponse>()
+    val localEventList: ArrayList<EventResponse>
+        get() = _localEventList
     //Loading Screen
     val isLoading = MutableLiveData<Boolean>()
     //Error data
@@ -29,8 +31,8 @@ class DetailViewModel @Inject constructor(
         try {
             val result = getEventsUseCase(teamId =teamId)
             if(!result.results.isNullOrEmpty()){
-                localEventList.addAll(result.results?: arrayListOf())
-                eventList.postValue(localEventList)
+                _localEventList.addAll(result.results?: arrayListOf())
+                eventList.postValue(_localEventList)
             }else{
                 isError.postValue(true)
             }
