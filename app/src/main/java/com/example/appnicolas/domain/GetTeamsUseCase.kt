@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetTeamsUseCase @Inject constructor( private val repository: AppRepository) {
 
-    suspend operator fun invoke(): TeamObjectResponse =
-        repository.getTeams()
+    suspend operator fun invoke(leagueQuery:String): TeamObjectResponse =
+        repository.getTeams(leagueQuery)
 
 }

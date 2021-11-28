@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.appnicolas.R
+import com.example.appnicolas.data.entities.Favorite
 import com.example.appnicolas.databinding.TeamContainerBinding
 import com.example.appnicolas.data.model.response.TeamResponse
 import com.example.appnicolas.ui.activities.detail.view.DetailActivity
 import com.squareup.picasso.Picasso
 
-class TeamAdapter(private val teams:List<TeamResponse>): RecyclerView.Adapter<TeamViewHolder>(){
+class TeamAdapter(private val teams:List<TeamResponse>, private val favorites : List<Favorite>,private val onFavorite: (TeamResponse) -> Unit): RecyclerView.Adapter<TeamViewHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return TeamViewHolder(layoutInflater.inflate(R.layout.team_container, parent, false))
@@ -22,7 +23,7 @@ class TeamAdapter(private val teams:List<TeamResponse>): RecyclerView.Adapter<Te
 
     override fun onBindViewHolder(holder: TeamViewHolder, position: Int) {
      val item = teams[position]
-        holder.bind(item)
+        holder.bind(item,favorites, onFavorite)
     }
 
 }
@@ -33,10 +34,26 @@ class TeamViewHolder(val view: View): RecyclerView.ViewHolder(view){
     // binding
     private val binding = TeamContainerBinding.bind(view)
 
-    fun bind(team:TeamResponse?){
+    fun bind(team:TeamResponse?,  favorites : List<Favorite>, onFavorite: (TeamResponse) -> Unit){
         binding.tvName.text = team?.name ?: "No data found"
         team?.imgBadge.let { img ->
             Picasso.get().load(img).into(binding.ivBadge)
+        }
+        team?.id.let { teamId->
+            favorites.let {  favoriteList->
+                if(favoriteList.map { e->e.teamId }.toList().contains(teamId)){
+                    binding.favouritebtn.setBackgroundResource(R.drawable.start_yellow)
+                    binding.favouritebtn.isClickable = false
+                }else{
+                    binding.favouritebtn.setBackgroundResource(R.drawable.start_white)
+                    binding.favouritebtn.setOnClickListener {
+                        team?.let { teamItem->
+                            onFavorite(teamItem)
+                        }
+                    }
+                    }
+
+            }
         }
         binding.viewRoot.setOnClickListener {
              val intent =  Intent(view.context, DetailActivity::class.java)
