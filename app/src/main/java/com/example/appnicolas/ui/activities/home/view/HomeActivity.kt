@@ -66,14 +66,5 @@ class HomeActivity : AppCompatActivity() {
         })
     }
 
-    // Intent intent = new Intent(getApplicationContext(), Second_activity.class);
-
-    // now by putExtra method put the value in key, value pair
-    // key is message_key by this key we will receive the value, and put the string
-
-    // intent.putExtra("message_key", str);
-
-    // start the Intent
-    // startActivity(intent);
 
 }

@@ -46,6 +46,11 @@ class TeamViewHolder(val view: View): RecyclerView.ViewHolder(view){
             intent.putExtra("imgBadge", team?.imgBadge)
             intent.putExtra("imgShirt", team?.imgShirt)
             intent.putExtra("teamId", team?.id)
+            intent.putExtra("facebookUrl", team?.facebookUrl)
+            intent.putExtra("twitterUrl", team?.twitterUrl)
+            intent.putExtra("instagramUrl", team?.instagramUrl)
+            intent.putExtra("youtubeUrl", team?.youtubeUrl)
+            intent.putExtra("website", team?.website)
             startActivity(view.context, intent,null)
         }
     }
