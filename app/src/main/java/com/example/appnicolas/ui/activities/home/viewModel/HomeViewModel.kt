@@ -15,7 +15,9 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val teamList = MutableLiveData<ArrayList<TeamResponse>>()
-    var localTeamList = ArrayList<TeamResponse>()
+    private var _localTeamList = ArrayList<TeamResponse>()
+    val localTeamList : ArrayList<TeamResponse>
+        get() = _localTeamList
     //Loading Screen
     val isLoading = MutableLiveData<Boolean>()
     //Error data
@@ -26,8 +28,8 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val result = getTeamsUseCase()
             if(!result.teams.isNullOrEmpty()){
-                localTeamList.addAll(result.teams?: arrayListOf())
-                teamList.postValue(localTeamList)
+                _localTeamList.addAll(result.teams?: arrayListOf())
+                teamList.postValue(_localTeamList)
             }else{
                 isError.postValue(true)
             }

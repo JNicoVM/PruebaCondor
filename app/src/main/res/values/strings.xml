@@ -3,6 +3,7 @@
     <string name="no_data">UPS! There isn\'t data</string>
     <string name="details">Details:</string>
     <string name="events">Events:</string>
+    <string name="last_events">Last 5 Events:</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="foundation">Foundation</string>
