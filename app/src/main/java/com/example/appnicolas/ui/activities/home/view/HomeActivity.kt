@@ -78,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
                 homeViewModel.insertFavorite(teamItem)
                 homeViewModel.getFavorites()
             }
-            adapter.notifyDataSetChanged()
+            binding.rvTeam.adapter = adapter
         })
     }
 
@@ -89,7 +89,7 @@ class HomeActivity : AppCompatActivity() {
                 homeViewModel.insertFavorite(teamItem)
                 homeViewModel.getFavorites()
             }
-            adapter.notifyDataSetChanged()
+            binding.rvTeam.adapter = adapter
         })
     }
 
