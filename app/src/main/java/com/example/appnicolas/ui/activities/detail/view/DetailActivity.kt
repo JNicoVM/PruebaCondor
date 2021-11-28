@@ -12,6 +12,7 @@ import com.example.appnicolas.databinding.DetailActivityBinding
 import com.example.appnicolas.ui.activities.detail.viewModel.DetailViewModel
 import com.example.appnicolas.ui.adapters.EventAdapter
 import com.example.appnicolas.ui.adapters.TeamAdapter
+import com.example.appnicolas.utils.Validator
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -105,46 +106,46 @@ class DetailActivity : AppCompatActivity() {
 
     //listener onClick twitter
     private fun onClickTwitterImage() {
-        val urlString = bundle.getString("twitterUrl") ?: ""
-        binding.ivTwitter.visibility = if (urlString.isNotEmpty()) View.VISIBLE else View.GONE
+        val urlString = Validator.buildValidUrl(bundle.getString("twitterUrl") ?: "")
+        binding.ivTwitter.visibility = if (Validator.isValidUrl(urlString)) View.VISIBLE else View.GONE
         binding.ivTwitter.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://${urlString}")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
         }
     }
 
     //listener onClick youtube
     private fun onClickYoutubeImage() {
-        val urlString = bundle.getString("youtubeUrl") ?: ""
-        binding.ivYoutube.visibility = if (urlString.isNotEmpty()) View.VISIBLE else View.GONE
+        val urlString = Validator.buildValidUrl(bundle.getString("youtubeUrl") ?: "")
+        binding.ivYoutube.visibility =if (Validator.isValidUrl(urlString)) View.VISIBLE else View.GONE
         binding.ivYoutube.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://${urlString}")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
         }
     }
 
     //listener onClick facebook
     private fun onClickFacebookImage() {
-        val urlString = bundle.getString("facebookUrl") ?: ""
-        binding.ivFacebook.visibility = if (urlString.isNotEmpty()) View.VISIBLE else View.GONE
+        val urlString = Validator.buildValidUrl(bundle.getString("facebookUrl")?:"")
+        binding.ivFacebook.visibility = if (Validator.isValidUrl(urlString)) View.VISIBLE else View.GONE
         binding.ivFacebook.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://${urlString}")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
         }
     }
 
     //listener onClick instagram
     private fun onClickInstagramImage() {
-        val urlString = bundle.getString("instagramUrl") ?: ""
-        binding.ivInstagram.visibility = if (urlString.isNotEmpty()) View.VISIBLE else View.GONE
+        val urlString = Validator.buildValidUrl(bundle.getString("instagramUrl")?:"")
+        binding.ivInstagram.visibility = if (Validator.isValidUrl(urlString)) View.VISIBLE else View.GONE
         binding.ivInstagram.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://${urlString}")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
         }
     }
 
     //listener onClick web
     private fun onClickWebImage() {
-        val urlString = bundle.getString("website") ?: ""
-        binding.ivWWW.visibility = if (urlString.isNotEmpty()) View.VISIBLE else View.GONE
+        val urlString = Validator.buildValidUrl(bundle.getString("website")?:"")
+        binding.ivWWW.visibility =if (Validator.isValidUrl(urlString)) View.VISIBLE else View.GONE
         binding.ivWWW.setOnClickListener {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://${urlString}")))
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(urlString)))
         }
     }
 }
