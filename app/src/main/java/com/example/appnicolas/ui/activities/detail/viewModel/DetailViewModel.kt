@@ -31,7 +31,7 @@ class DetailViewModel @Inject constructor(
         try {
             val result = getEventsUseCase(teamId =teamId)
             if(!result.results.isNullOrEmpty()){
-                _localEventList.addAll(result.results?: arrayListOf())
+                _localEventList.addAll(result.results)
                 eventList.postValue(_localEventList)
             }else{
                 isError.postValue(true)
