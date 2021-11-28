@@ -3,9 +3,11 @@ package com.example.appnicolas.ui.activities.home.viewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.appnicolas.data.model.League
+import com.example.appnicolas.data.entities.Favorite
 import com.example.appnicolas.data.model.response.TeamResponse
+import com.example.appnicolas.domain.GetFavoritesFromDbUseCase
 import com.example.appnicolas.domain.GetTeamsUseCase
+import com.example.appnicolas.domain.SetFavoritesToDbUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,6 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getTeamsUseCase: GetTeamsUseCase,
+    private val getFavoritesFromDbUseCase: GetFavoritesFromDbUseCase
+    ,
+    private val setFavoritesToDbUseCase: SetFavoritesToDbUseCase
 ) : ViewModel() {
 
     val teamList = MutableLiveData<ArrayList<TeamResponse>>()
@@ -20,10 +25,10 @@ class HomeViewModel @Inject constructor(
     val localTeamList : ArrayList<TeamResponse>
         get() = _localTeamList
 
-    val leagueList = MutableLiveData<ArrayList<League>>()
-    private var _localLeagueList = ArrayList<League>()
-    val localLeagueList : ArrayList<League>
-        get() = _localLeagueList
+    val favoriteList = MutableLiveData<ArrayList<Favorite>>()
+    private var _localfavoriteList = ArrayList<Favorite>()
+    val localfavoriteList : ArrayList<Favorite>
+        get() = _localfavoriteList
 
     //Loading Screen
     val isLoading = MutableLiveData<Boolean>()
@@ -32,26 +37,15 @@ class HomeViewModel @Inject constructor(
 
 
     fun onCreate(){
-//        val tempoLeagueList = listOf<League>(League(name = "jo", nameQuery = "jo_jo" , id= 0))
         viewModelScope.launch {
-//            setLeaguesToDbUseCase.invoke(tempoLeagueList)
-//            val resultDb =  getLeaguesFromDbUseCase.invoke()
-//            leagueList.postValue(ArrayList(resultDb))
-            val result = getTeamsUseCase("Spanish%20La%20Liga")
-            if(!result.teams.isNullOrEmpty()){
-                _localTeamList.addAll(result.teams)
-                teamList.postValue(_localTeamList)
-            }else{
-                isError.postValue(true)
-            }
-
-            isLoading.postValue(false)
+            getFavoritesFromDbUseCase.invoke()
         }
     }
 
     fun getTeamsByLeague(leagueQuery:String){
         isLoading.postValue(true)
         viewModelScope.launch {
+            getFavorites()
             val result = getTeamsUseCase(leagueQuery)
             if(!result.teams.isNullOrEmpty()){
                 _localTeamList.addAll(result.teams)
@@ -67,5 +61,20 @@ class HomeViewModel @Inject constructor(
     fun cleanTeamsList(){
         _localTeamList.clear()
         teamList.postValue(_localTeamList)
+    }
+
+    fun insertFavorite(teamResponse: TeamResponse){
+        val favorite = Favorite(id = 0, name = teamResponse.name?:"", teamId = teamResponse.id?:"" )
+        viewModelScope.launch {
+            setFavoritesToDbUseCase.invoke(listOf(favorite))
+        }
+    }
+
+     fun getFavorites(){
+        viewModelScope.launch {
+            _localfavoriteList.clear()
+           _localfavoriteList.addAll(ArrayList(getFavoritesFromDbUseCase.invoke()))
+           favoriteList.postValue(_localfavoriteList)
+        }
     }
 }

@@ -34,14 +34,13 @@ class HomeActivity : AppCompatActivity() {
         installSplashScreen()
         binding = HomeActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        homeViewModel.onCreate()
         initSpinner()
         initRecyclerView()
         listenerTeams()
-        listenerLeagues()
+        listenerFavorite()
         listenerIsLoading()
         listenerIsError()
-        homeViewModel.onCreate()
-
     }
 
     //Init Spinner
@@ -66,7 +65,7 @@ class HomeActivity : AppCompatActivity() {
 
     //Init recyclerView
     private fun initRecyclerView() {
-        adapter = TeamAdapter(homeViewModel.localTeamList.toList())
+        adapter = TeamAdapter(homeViewModel.localTeamList.toList(), homeViewModel.localfavoriteList.toList()){}
         binding.rvTeam.layoutManager = LinearLayoutManager(this)
         binding.rvTeam.adapter = adapter
 
@@ -75,18 +74,22 @@ class HomeActivity : AppCompatActivity() {
     //Filling the list of teams
     private fun listenerTeams() {
         homeViewModel.teamList.observe(this, Observer { teamList ->
-
-            adapter = TeamAdapter(teamList)
-            binding.rvTeam.adapter = adapter
+            adapter = TeamAdapter(teamList, homeViewModel.localfavoriteList){teamItem->
+                homeViewModel.insertFavorite(teamItem)
+                homeViewModel.getFavorites()
+            }
+            adapter.notifyDataSetChanged()
         })
     }
 
-    //Filling the list of league
-    private fun listenerLeagues() {
-        homeViewModel.leagueList.observe(this, Observer { leagueList ->
-            leagueList.forEach {
-                print(it.nameQuery)
+    //listener favorite
+    private fun listenerFavorite(){
+        homeViewModel.favoriteList.observe(this, Observer { favoriteList ->
+            adapter = TeamAdapter( homeViewModel.localTeamList, favoriteList){teamItem->
+                homeViewModel.insertFavorite(teamItem)
+                homeViewModel.getFavorites()
             }
+            adapter.notifyDataSetChanged()
         })
     }
 

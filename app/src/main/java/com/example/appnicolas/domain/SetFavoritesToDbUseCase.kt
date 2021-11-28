@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class SetFavoritesToDbUseCase @Inject constructor(private val repository: AppRepository) {
 
-    suspend operator fun invoke(leagues: List<Favorite>){
-        repository.insertFavoritesInDB(leagues)
+    suspend operator fun invoke(favorites: List<Favorite>){
+        repository.insertFavoritesInDB(favorites)
     }
 
 }
